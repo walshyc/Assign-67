@@ -12,21 +12,25 @@ function App() {
     <Router>
       <Navbar></Navbar>
       <Switch>
-        <Route excat path="/users/:id">
-          <UserProfile></UserProfile>
-        </Route>
-        <Route excat path="/users">
-          <Users />
-        </Route>
-        <Route excat path="/phones">
-          <Phones></Phones>
-        </Route>
-        <Route excat path="/orders">
-          <Orders></Orders>
-        </Route>
-        <Route path="/">
-          <Landing></Landing>
-        </Route>
+        <div className="bg-gray-300 w-full">
+          <div className="w-full min-h-screen container mx-auto bg-gray-300">
+            <Route exact path="/users/:id">
+              <UserProfile></UserProfile>
+            </Route>
+            <Route exact path="/users">
+              <Users />
+            </Route>
+            <Route exact path="/phones">
+              <Phones></Phones>
+            </Route>
+            <Route exact path="/orders">
+              <Orders></Orders>
+            </Route>
+            <Route exact path="/">
+              <Landing></Landing>
+            </Route>
+          </div>
+        </div>
       </Switch>
     </Router>
   );

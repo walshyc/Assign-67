@@ -173,6 +173,52 @@ app.patch('/phones/:phoneId', async (req, res) => {
   }
 });
 
+// Order Routes
+app.post('/orders', async (req, res) => {
+  const { user, orders } = req.body;
+  const fullOrder = orders.map((o) => {
+    return {
+      phone: mongoose.Types.ObjectId(o.phone),
+    };
+  });
+  const order = new Order({
+    user: mongoose.Types.ObjectId(user),
+    items: fullOrder,
+  });
+  try {
+    const newOrder = await order.save();
+    res.json(newOrder);
+    console.log('New Order:');
+    console.log(newOrder);
+  } catch (error) {
+    console.log(error);
+    res.json({ message: error });
+  }
+});
+
+app.get('/orders', async (req, res) => {
+  try {
+    const orders = await Order.find().populate({ path: 'items.phone', model: 'Phones' });
+    res.json(orders);
+    console.log('Users Orders:');
+    console.log(orders);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+app.get('/orders/:userId', async (req, res) => {
+  try {
+    const orders = await Order.find({
+      user: mongoose.Types.ObjectId(req.params.userId),
+    }).populate({ path: 'items.phone', model: 'Phones' });
+    res.json(orders);
+    console.log('Users Orders:');
+    console.log(orders);
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 // connect to database
 mongoose.connect(
   'mongodb+srv://conor123:conor123@cluster0.xtigo.mongodb.net/assignment6and7?retryWrites=true&w=majority',
